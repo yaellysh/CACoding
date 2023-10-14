@@ -2,15 +2,13 @@ package app;
 
 import data_access.FileUserDataAccessObject;
 import entity.CommonUserFactory;
+import interface_adapter.clear_users.ClearViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.ViewManagerModel;
 import use_case.login.LoginUserDataAccessInterface;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +38,7 @@ public class Main {
         // results from the use case. The ViewModels are observable, and will
         // be observed by the Views.
         LoginViewModel loginViewModel = new LoginViewModel();
+        ClearViewModel clearViewModel = new ClearViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
 
@@ -50,11 +49,16 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
+        ClearView clearView = ClearUseCaseFactory.create(viewManagerModel, clearViewModel, userDataAccessObject);
+
+
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, clearView);
         views.add(signupView, signupView.viewName);
+        views.add(clearView, clearView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
+
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
         views.add(loggedInView, loggedInView.viewName);

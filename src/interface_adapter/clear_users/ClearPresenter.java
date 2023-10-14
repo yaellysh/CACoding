@@ -1,17 +1,23 @@
 package interface_adapter.clear_users;
 
 
+import interface_adapter.ViewManagerModel;
 import use_case.clear_users.ClearInputBoundary;
+import use_case.clear_users.ClearOutputBoundary;
+import use_case.clear_users.ClearOutputData;
 
-public class ClearPresenter {
+public class ClearPresenter implements ClearOutputBoundary {
 
-    final ClearInputBoundary clearUseCaseInteractor;
+    private final ViewManagerModel viewManagerModel;
+    private final ClearViewModel clearViewModel;
 
-    public ClearPresenter(ClearInputBoundary clearUseCaseInteractor) {
-        this.clearUseCaseInteractor = clearUseCaseInteractor;
+    public ClearPresenter(ViewManagerModel viewManagerModel, ClearViewModel clearViewModel) {
+        this.viewManagerModel = viewManagerModel;
+        this.clearViewModel = clearViewModel;
     }
 
-    public void execute() {
-        clearUseCaseInteractor.execute();
+    @Override
+    public void prepareSuccessView(ClearOutputData user) {
+
     }
 }

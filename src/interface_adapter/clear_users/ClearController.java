@@ -2,6 +2,9 @@ package interface_adapter.clear_users;
 
 import use_case.clear_users.ClearInputBoundary;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class ClearController {
 
     final ClearInputBoundary clearUseCaseInteractor;
@@ -10,7 +13,7 @@ public class ClearController {
         this.clearUseCaseInteractor = clearUseCaseInteractor;
     }
 
-    public String[] execute() {
+    public ArrayList<String> execute() throws IOException {
         return clearUseCaseInteractor.execute();
     }
 }

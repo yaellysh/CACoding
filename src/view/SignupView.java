@@ -4,6 +4,7 @@ import interface_adapter.clear_users.ClearController;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
+import use_case.clear_users.ClearInteractor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,18 +23,17 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
     private final SignupController signupController;
-    private final ClearController clearController;
+//    private final ClearController clearController;
 
     private final JButton signUp;
     private final JButton cancel;
 
     private final JButton clear;
 
-    public SignupView(SignupController signupController, SignupViewModel signupViewModel, ClearController clearController) {
+    public SignupView(SignupController signupController, SignupViewModel signupViewModel, ClearView clearView) {
 
         this.signupController = signupController;
         this.signupViewModel = signupViewModel;
-        this.clearController = clearController;
         signupViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
@@ -72,19 +72,12 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 }
         );
 
-        clear.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(clear)) {
-                            clearController.execute();
-//                            String[] usernames = clearController.execute();
-//                            String usernames = "a";
-//                            JOptionPane.showMessageDialog(this, usernames.toString());
-                        }
-                    }
-                }
-        );
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearView.actionPerformed(e);
+            }
+        });
 
         cancel.addActionListener(this);
 

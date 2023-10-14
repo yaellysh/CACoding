@@ -8,7 +8,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -87,7 +87,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
+    public void clearFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+        String header = reader.readLine();
+        FileWriter fw = new FileWriter("./users.csv",false);
+        fw.write(header);
 
+    }
     /**
      * Return whether a user exists with username identifier.
      * @param identifier the username to check.
@@ -97,12 +103,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public boolean existsByName(String identifier) {
         return accounts.containsKey(identifier);
     }
-
-    public String[] deleteUsers(String csvPath) {
-        String[] usernames = (String[]) accounts.keySet().toArray();
-        accounts.clear();
-        headers.clear();
-        csvFile = new File(csvPath);
-        return usernames;
+    @Override
+    public ArrayList<String> deleteUsers() throws IOException {
+        ArrayList<String> accounts = new ArrayList<>();
+        for (User user:this.accounts.values()) {
+            accounts.add(user.getName());
+        }
+        this.accounts.clear();
+        clearFile();
+        return accounts;
     }
+
+
 }

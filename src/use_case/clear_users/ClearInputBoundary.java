@@ -1,6 +1,9 @@
 package use_case.clear_users;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public interface ClearInputBoundary {
-    String[] execute();
+    ArrayList<String> execute() throws IOException;
 }
